@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="An archive of Seattle storefronts that have closed since 2020 — and a watch list of those that may be next." />
+  <meta name="description" content="A live dashboard and archive of Seattle storefronts that have gone dark since 2020 — plus the watch list of those that may be next." />
   <meta name="theme-color" content="#0e1714" />
-  <title>The Seattle Register of Lost Storefronts · 2020–2026</title>
+  <title>Gone Dark · A Seattle Storefront Atlas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230e1714'/%3E%3Ctext x='50' y='66' text-anchor='middle' font-family='serif' font-size='62' fill='%23e07856' font-style='italic'%3ER%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230e1714'/%3E%3Ctext x='50' y='66' text-anchor='middle' font-family='serif' font-size='62' fill='%23e07856' font-style='italic'%3EG%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
-  <!-- Masthead -->
   <header class="masthead">
     <div class="wrap masthead-grid">
       <div class="masthead-meta-l">
-        <span class="meta-line">Vol. VI · No. 1</span>
-        <span class="meta-line">Spring 2026</span>
+        <span class="meta-line">Vol. VI · No. 2</span>
+        <span class="meta-line">Live atlas</span>
       </div>
       <div class="masthead-title">
-        <div class="masthead-mark">R</div>
-        <h1 class="masthead-name">The Seattle Register</h1>
-        <p class="masthead-sub">— of Lost &amp; Threatened Storefronts —</p>
+        <div class="masthead-mark">G</div>
+        <h1 class="masthead-name">Gone Dark</h1>
+        <p class="masthead-sub">— A Seattle storefront atlas —</p>
       </div>
       <div class="masthead-meta-r">
         <span class="meta-line">47.6062° N</span>
@@ -31,8 +31,8 @@
       </div>
     </div>
     <div class="wrap masthead-rule">
-      <span>Closures · Watch List · Field Notes · The Geography</span>
-      <span class="meta-line">Free · Living archive · 70 entries</span>
+      <span><a href="#dashboard">Atlas</a> · <a href="#index">Index</a> · <a href="#watch">Watch list</a> · <a href="#notes">Field notes</a></span>
+      <span class="meta-line">Living archive · 70 entries</span>
     </div>
   </header>
 
@@ -40,21 +40,18 @@
   <section class="opening">
     <div class="wrap">
       <div class="open-coords">↑ 47.6062° N</div>
-
       <h2 class="lede">
         <em>Forty-five</em> storefronts have <em>gone dark</em><br />
         in Seattle since the year the streets emptied.<br />
         <em>Twenty-five more</em> are on the critical list.
       </h2>
-
       <div class="open-cols">
         <div class="open-col">
-          <div class="col-label">[ The premise ]</div>
+          <div class="col-label">[ The atlas, below ]</div>
           <p>
-            This is not a comprehensive census. It is a record kept by hand —
-            a private inventory of the bars, drugstores, dive joints,
-            department stores and dessert shops that quietly stopped existing
-            between Lake Union and Pioneer Square.
+            Every closure and every watch-listed business is plotted on a live map.
+            Click a pin to read the entry. Click a neighbourhood in the sidebar
+            to filter the dashboard down to that area.
           </p>
         </div>
         <div class="open-col">
@@ -63,35 +60,127 @@
             Downtown ground-floor retail vacancy stands near <strong>26%</strong>.
             Worker foot traffic remains at roughly <strong>60%</strong> of pre-pandemic baseline.
             Reported shoplifting incidents are up <strong>22% year-over-year</strong>.
-            The map of pain is uneven. The 3rd Avenue corridor
-            and Westlake have absorbed the heaviest losses.
           </p>
         </div>
         <div class="open-col">
           <div class="col-label">[ How to read this ]</div>
           <p>
-            Below: a chronological index of every recorded closure,
-            then a watch list of stores rumored, announced, or in bankruptcy.
-            Then a stylised geography of where the city is losing the most.
-            Then five field notes on what the data says aloud.
+            Salmon pins are confirmed closures. Rust pins are at-risk businesses.
+            The heatmap underneath shows where pain is concentrated.
+            Toggle layers in the top-right of the map.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- The index -->
-  <section id="index" class="section section-index">
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="section section-dashboard">
     <div class="wrap">
       <div class="section-head">
         <div class="head-left">
           <span class="folio">§ I</span>
+          <h3 class="section-title"><em>The Atlas.</em><br />A live map of Seattle's losses.</h3>
+        </div>
+        <div class="head-right">
+          <p>
+            Plotted from the same dataset as the index. Toggle the heatmap
+            to see density. Click a neighbourhood on the right to filter
+            the entire page.
+          </p>
+        </div>
+      </div>
+
+      <div class="dashboard">
+        <!-- Active filter banner -->
+        <div id="active-filter" class="active-filter" hidden>
+          <span class="af-text">Filtered to <strong id="af-name"></strong></span>
+          <button id="af-clear" type="button">↺ clear</button>
+        </div>
+
+        <!-- KPI strip -->
+        <div class="kpi-strip">
+          <div class="kpi">
+            <div class="kpi-label">Closed</div>
+            <div class="kpi-num" id="kpi-closed">0</div>
+            <div class="kpi-foot">storefronts since 2020</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Watch list</div>
+            <div class="kpi-num" id="kpi-watch">0</div>
+            <div class="kpi-foot">at-risk locations</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Hottest area</div>
+            <div class="kpi-num kpi-text" id="kpi-area">—</div>
+            <div class="kpi-foot" id="kpi-area-foot">— losses combined</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Worst year</div>
+            <div class="kpi-num" id="kpi-year">—</div>
+            <div class="kpi-foot" id="kpi-year-foot">— closures</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Theft hotspots</div>
+            <div class="kpi-num" id="kpi-theft">0</div>
+            <div class="kpi-foot">named in reports</div>
+          </div>
+        </div>
+
+        <!-- Map + sidebar -->
+        <div class="atlas-grid">
+          <div class="atlas-map-frame">
+            <div id="atlas-map"></div>
+            <div class="atlas-legend">
+              <span class="legend-item"><span class="leg-dot leg-closed"></span> Closed</span>
+              <span class="legend-item"><span class="leg-dot leg-bankruptcy"></span> Bankruptcy / closing</span>
+              <span class="legend-item"><span class="leg-dot leg-theft"></span> Theft hotspot</span>
+              <span class="legend-item"><span class="leg-dot leg-rumored"></span> Rumoured</span>
+              <span class="legend-item legend-meta">Click a pin · drag to pan · scroll to zoom</span>
+            </div>
+          </div>
+
+          <aside class="atlas-side">
+            <div class="side-head">
+              <span class="folio-mini">Density by area</span>
+              <div class="side-toggle">
+                <button class="st-btn active" data-mode="all" type="button">All</button>
+                <button class="st-btn" data-mode="closed" type="button">Closed</button>
+                <button class="st-btn" data-mode="watch" type="button">Watch</button>
+              </div>
+            </div>
+            <ol id="density-list" class="density-list"></ol>
+            <p class="side-foot">
+              Click any neighbourhood to filter the map and index below.
+              Bar shows share of total. Numbers are exact counts.
+            </p>
+          </aside>
+        </div>
+
+        <!-- Year histogram -->
+        <div class="histogram">
+          <div class="hist-head">
+            <span class="folio-mini">Closures by year</span>
+            <span class="hist-meta" id="hist-meta">2020 → 2026</span>
+          </div>
+          <div id="histogram" class="hist-bars"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDEX -->
+  <section id="index" class="section section-index">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="head-left">
+          <span class="folio">§ II</span>
           <h3 class="section-title"><em>The Index.</em><br />Closures, in chronological order.</h3>
         </div>
         <div class="head-right">
           <p>
-            Forty-five places. Each one was a building someone walked into for the last time.
-            Filter by year, neighbourhood, or category. Search by name, address, or reason.
+            Each entry is a building someone walked into for the last time.
+            Filter by year, neighbourhood, or category. The map above stays in sync.
           </p>
         </div>
       </div>
@@ -125,19 +214,18 @@
     </div>
   </section>
 
-  <!-- Watch list -->
+  <!-- WATCH -->
   <section id="watch" class="section section-watch">
     <div class="wrap">
       <div class="section-head">
         <div class="head-left">
-          <span class="folio">§ II</span>
+          <span class="folio">§ III</span>
           <h3 class="section-title"><em>The Critical List.</em><br />At risk, rumoured, or under siege.</h3>
         </div>
         <div class="head-right">
           <p>
-            Twenty-five stores not yet closed but reported as struggling.
-            Some have announced their final dates. Some sit inside national
-            bankruptcies. Some have become repeated targets of organised theft.
+            Twenty-five stores not yet closed but reported as struggling — announced
+            future closures, national bankruptcies, or repeated targets of organised theft.
           </p>
         </div>
       </div>
@@ -153,35 +241,7 @@
     </div>
   </section>
 
-  <!-- Map -->
-  <section id="map" class="section section-map">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="head-left">
-          <span class="folio">§ III</span>
-          <h3 class="section-title"><em>The Geography.</em><br />Where the city is hurting most.</h3>
-        </div>
-        <div class="head-right">
-          <p>
-            A stylised survey, not a census. Each marker carries a count
-            of recorded closures and watch-listed locations within that area.
-            Downtown is broken into its sub-districts.
-          </p>
-        </div>
-      </div>
-
-      <div class="map-frame">
-        <div id="seattle-map" class="seattle-map"></div>
-        <div class="map-legend">
-          <span class="legend-item"><span class="legend-dot dot-down"></span> Downtown sub-district</span>
-          <span class="legend-item"><span class="legend-dot dot-other"></span> Other neighbourhood</span>
-          <span class="legend-item legend-meta">Larger circle = more losses</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Field notes -->
+  <!-- NOTES -->
   <section id="notes" class="section section-notes">
     <div class="wrap">
       <div class="section-head">
@@ -190,58 +250,37 @@
           <h3 class="section-title"><em>Field Notes.</em><br />Five patterns the data keeps repeating.</h3>
         </div>
       </div>
-
       <div class="notes-grid">
         <article class="note">
           <span class="note-num">i.</span>
           <h4>The 3rd Avenue collapse.</h4>
-          <p>
-            More storefronts have gone dark on this single corridor than in any other part of Seattle.
-            Office vacancy near 30% and the persistent shift to remote work have hollowed out
-            a retail base built around a 9-to-5 city.
-          </p>
+          <p>More storefronts have gone dark on this single corridor than in any other part of Seattle. Office vacancy near 30% and the persistent shift to remote work hollowed out a retail base built around a 9-to-5 city.</p>
         </article>
         <article class="note">
           <span class="note-num">ii.</span>
           <h4>The end of Bartell Drugs.</h4>
-          <p>
-            Eight Seattle locations of the city's beloved local pharmacy chain have closed
-            in the wake of Rite Aid's bankruptcy and CVS's takeover.
-            What had been a reliable corner store on dozens of blocks is, increasingly, a vacant pane of glass.
-          </p>
+          <p>Eight Seattle locations of the city's beloved local pharmacy chain have closed in the wake of Rite Aid's bankruptcy and CVS's takeover. What had been a reliable corner store on dozens of blocks is, increasingly, a vacant pane of glass.</p>
         </article>
         <article class="note">
           <span class="note-num">iii.</span>
           <h4>Anchors weighed down.</h4>
-          <p>
-            Westlake Center and Pacific Place have lost Macy's, Saks Off Fifth, Forever 21,
-            Barnes &amp; Noble, the Disney Store and a Southeast Asian food hall in six years.
-            The American mall-anchor model has all but vanished from downtown Seattle.
-          </p>
+          <p>Westlake Center and Pacific Place have lost Macy's, Saks Off Fifth, Forever 21, Barnes & Noble, the Disney Store and a Southeast Asian food hall in six years. The American mall-anchor model has all but vanished from downtown Seattle.</p>
         </article>
         <article class="note">
           <span class="note-num">iv.</span>
           <h4>Capitol Hill turns over.</h4>
-          <p>
-            R Place, The Cuff, Re-bar, B&amp;O Espresso, Glo's, Twice Sold Tales.
-            Legacy LGBTQ+ venues and thirty-year institutions have exited
-            as rents reset and operators retired.
-          </p>
+          <p>R Place, The Cuff, Re-bar, B&O Espresso, Glo's, Twice Sold Tales. Legacy LGBTQ+ venues and thirty-year institutions have exited as rents reset and operators retired.</p>
         </article>
         <article class="note">
           <span class="note-num">v.</span>
           <h4>Theft as the cited reason.</h4>
-          <p>
-            Walgreens, Bartell, Target and REI have all named organised retail theft
-            in their public statements. The Seattle Police Department reports
-            shoplifting up 22% year-over-year through mid-2024.
-          </p>
+          <p>Walgreens, Bartell, Target and REI have all named organised retail theft in their public statements. The Seattle Police Department reports shoplifting up 22% year-over-year through mid-2024.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Colophon -->
+  <!-- COLOPHON -->
   <section id="colophon" class="section section-colophon">
     <div class="wrap colophon-wrap">
       <div>
@@ -249,22 +288,9 @@
         <h3 class="section-title"><em>Colophon &amp; Sources.</em></h3>
       </div>
       <div class="colophon-body">
-        <p>
-          This Register draws from the Seattle Times, Puget Sound Business Journal,
-          Capitol Hill Seattle Blog, GeekWire, KING 5, KIRO 7, Axios Seattle,
-          the Downtown Seattle Association's <em>State of Downtown 2024</em>,
-          SPD CompStat, and local Reddit threads.
-        </p>
-        <p>
-          Watch-list status reflects public reporting and analyst speculation
-          and is not a confirmation of closure. Some addresses are approximate;
-          a handful of entries are widely reported but not yet independently verified.
-          Spotted a closure that's missing? This is a living document.
-        </p>
-        <p class="set-in">
-          Set in <em>Newsreader</em> by Production Type and <em>IBM Plex Mono</em> by IBM.
-          Built and quietly maintained.
-        </p>
+        <p>This atlas draws from the Seattle Times, Puget Sound Business Journal, Capitol Hill Seattle Blog, GeekWire, KING 5, KIRO 7, Axios Seattle, the Downtown Seattle Association's <em>State of Downtown 2024</em>, SPD CompStat, and local Reddit threads.</p>
+        <p>Watch-list status reflects public reporting and analyst speculation and is not a confirmation of closure. Pin coordinates are approximate; a handful of entries are widely reported but not yet independently verified. Spotted a closure that's missing? This is a living document.</p>
+        <p class="set-in">Set in <em>Newsreader</em> by Production Type and <em>IBM Plex Mono</em> by IBM. Map tiles by Stadia / Stamen. Heat layer via Leaflet.heat.</p>
       </div>
     </div>
   </section>
@@ -272,8 +298,8 @@
   <footer class="endsheet">
     <div class="wrap endsheet-grid">
       <span>— end of issue —</span>
-      <span>The Seattle Register · 2026</span>
-      <span>Vol. VI · No. 1</span>
+      <span>Gone Dark · 2026</span>
+      <span>Vol. VI · No. 2</span>
     </div>
     <svg class="rainier" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
       <path d="M0,120 L0,80 L120,72 L180,52 L240,68 L320,44 L400,76 L480,30 L560,52 L640,16 L720,42 L820,78 L920,58 L1020,82 L1120,68 L1200,90 L1200,120 Z" fill="currentColor" opacity="0.4"/>
@@ -281,6 +307,8 @@
     </svg>
   </footer>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
