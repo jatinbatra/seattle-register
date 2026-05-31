@@ -301,3 +301,48 @@ $('reset').addEventListener('click', () => {
 });
 
 applyAll();
+
+/* ---------- Submission modal ---------- */
+const modal = $('submit-modal');
+const form = $('submit-form');
+const thanks = $('submit-thanks');
+
+function openModal() {
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => form.querySelector('input[name="name"]')?.focus(), 100);
+}
+function closeModal() {
+  modal.hidden = true;
+  document.body.style.overflow = '';
+  form.hidden = false;
+  thanks.hidden = true;
+  form.reset();
+}
+
+$('open-submit').addEventListener('click', openModal);
+$('close-submit').addEventListener('click', closeModal);
+$('cancel-submit').addEventListener('click', closeModal);
+$('close-thanks').addEventListener('click', closeModal);
+modal.querySelector('.modal-backdrop').addEventListener('click', closeModal);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !modal.hidden) closeModal();
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = new FormData(form);
+  try {
+    const res = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(data).toString(),
+    });
+    if (!res.ok) throw new Error('Form submission failed');
+    form.hidden = true;
+    thanks.hidden = false;
+  } catch (err) {
+    alert('Submission failed — try again, or DM the link.');
+    console.error(err);
+  }
+});

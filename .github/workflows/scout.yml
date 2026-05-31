@@ -1,0 +1,62 @@
+name: Closure scout
+
+on:
+  schedule:
+    # Every Monday at 14:00 UTC (07:00 Seattle).
+    - cron: '0 14 * * 1'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  scout:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run scout
+        run: node scripts/scout.mjs
+
+      - name: Open / update tracking issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('scout-report.md', 'utf8');
+            const today = new Date().toISOString().slice(0, 10);
+            const title = `Closure candidates · ${today}`;
+
+            // Search for an existing weekly issue from the last 6 days; otherwise open a new one.
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'scout',
+              per_page: 5,
+            });
+
+            if (issues.length === 0) {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['scout'],
+              });
+              core.notice(`Opened issue #${created.data.number}`);
+            } else {
+              const issue = issues[0];
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `## Update · ${today}\n\n${body}`,
+              });
+              core.notice(`Updated issue #${issue.number}`);
+            }

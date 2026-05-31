@@ -78,12 +78,94 @@
       </div>
 
       <div class="foot">
-        <strong>Hand-curated, not auto-updated.</strong>
-        Sources: Seattle Times, PSBJ, GeekWire, KING 5, KIRO 7, DSA <em>State of Downtown 2024</em>,
-        SPD CompStat, Capitol Hill Seattle Blog. Watch-list status reported, not confirmed.
+        <button id="open-submit" type="button" class="submit-btn">＋ Spotted one missing? Submit it</button>
+        Hand-curated, not auto-updated. A weekly scout watches r/Seattle for new closure
+        mentions and opens a review issue on
+        <a href="https://github.com/jatinbatra/seattle-register/issues" target="_blank" rel="noopener">GitHub</a>.
+        Sources: Seattle Times, PSBJ, GeekWire, KING 5, KIRO 7, DSA, SPD CompStat, Capitol Hill Seattle Blog.
       </div>
     </aside>
   </main>
+
+  <!-- Hidden form for Netlify Forms detection. -->
+  <form name="closure-tip" netlify netlify-honeypot="bot-field" hidden>
+    <input name="name" />
+    <input name="address" />
+    <input name="neighborhood" />
+    <input name="closedYear" />
+    <input name="reason" />
+    <textarea name="blurb"></textarea>
+    <input name="source" />
+    <input name="submitter" />
+    <input name="bot-field" />
+  </form>
+
+  <!-- Submission modal -->
+  <div id="submit-modal" class="modal" hidden role="dialog" aria-labelledby="modal-title" aria-modal="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="close-submit" type="button" aria-label="Close">×</button>
+      <h2 id="modal-title" class="modal-title"><em>Submit</em> a closure</h2>
+      <p class="modal-strap">A real Seattle storefront that closed and isn't listed? Drop the details — I'll review and add it. No login.</p>
+
+      <form name="closure-tip" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="modal-form" id="submit-form">
+        <input type="hidden" name="form-name" value="closure-tip" />
+        <p hidden><label>Don't fill this: <input name="bot-field" /></label></p>
+
+        <label class="field">
+          <span>Business name <em>required</em></span>
+          <input name="name" required placeholder="e.g. Sip & Ship Ballard" />
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span>Neighbourhood</span>
+            <input name="neighborhood" placeholder="Ballard, Capitol Hill…" />
+          </label>
+          <label class="field field-narrow">
+            <span>Year closed</span>
+            <input name="closedYear" type="number" min="2018" max="2030" placeholder="2025" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Address</span>
+          <input name="address" placeholder="1234 NW Market St" />
+        </label>
+
+        <label class="field">
+          <span>Why it closed</span>
+          <input name="reason" placeholder="lease, bankruptcy, theft, retirement…" />
+        </label>
+
+        <label class="field">
+          <span>One-line story</span>
+          <textarea name="blurb" rows="3" placeholder="What this place was, how long it ran, what people remember it for."></textarea>
+        </label>
+
+        <label class="field">
+          <span>Source link <em>(article, tweet, photo)</em></span>
+          <input name="source" type="url" placeholder="https://…" />
+        </label>
+
+        <label class="field">
+          <span>Your name or handle <em>(optional)</em></span>
+          <input name="submitter" placeholder="So I can credit you" />
+        </label>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="cancel-submit">Cancel</button>
+          <button type="submit" class="btn-primary">Submit closure</button>
+        </div>
+      </form>
+
+      <div id="submit-thanks" class="modal-thanks" hidden>
+        <h3><em>Thanks.</em></h3>
+        <p>I'll review and add it. The list refreshes when I push a new commit — usually within a few days.</p>
+        <button type="button" class="btn-primary" id="close-thanks">Close</button>
+      </div>
+    </div>
+  </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
