@@ -92,7 +92,7 @@ const map = L.map('map', {
   zoomSnap: 0.5,
 }).setView([47.6206, -122.3320], 12);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   maxZoom: 19,
   attribution: '© <a href="https://carto.com/">CARTO</a> · © OpenStreetMap',
   subdomains: 'abcd',
@@ -189,20 +189,20 @@ function renderMap(items) {
     markers.set(id(x), m);
   });
 
-  // Heat
-  const points = items.map(x => [x.lat, x.lng, x.kind === 'closed' ? 1.0 : 0.6]);
+  // Soft heat for light paper
+  const points = items.map(x => [x.lat, x.lng, x.kind === 'closed' ? 1.0 : 0.5]);
   if (points.length) {
     heatLayer = L.heatLayer(points, {
-      radius: 28,
-      blur: 24,
+      radius: 30,
+      blur: 32,
       maxZoom: 14,
-      minOpacity: 0.2,
+      minOpacity: 0.12,
       gradient: {
-        0.0: 'rgba(138,169,179,0)',
-        0.35: 'rgba(138,169,179,0.4)',
-        0.6: 'rgba(217,163,96,0.6)',
-        0.8: 'rgba(224,120,86,0.85)',
-        1.0: 'rgba(179,90,61,0.95)',
+        0.0: 'rgba(94,125,138,0)',
+        0.35: 'rgba(94,125,138,0.18)',
+        0.6:  'rgba(184,133,54,0.28)',
+        0.8:  'rgba(194,80,58,0.42)',
+        1.0:  'rgba(156,70,40,0.55)',
       },
     }).addTo(map);
   }
